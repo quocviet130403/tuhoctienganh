@@ -1,6 +1,7 @@
-// Comprehensive vocabulary database — 300+ IT words from all 6 months
+// Comprehensive vocabulary database — 375+ IT words from all 6 months
 // Each word has IPA, Vietnamese meaning, example sentence, category, and day learned
 // Includes Senior Backend Developer vocabulary: Go, NestJS, MySQL, MongoDB, Redis, Kafka, AWS, Docker, Linux/VPS
+// + Design Patterns, Testing, CI/CD, Monitoring, Network, Interview vocabulary
 
 export const categories = {
   all: 'Tất cả',
@@ -31,6 +32,12 @@ export const categories = {
   aws: 'AWS Cloud',
   docker: 'Docker/K8s',
   linux_vps: 'Linux/VPS',
+  design_patterns: 'Design Patterns',
+  testing_adv: 'Testing',
+  cicd: 'CI/CD',
+  monitoring: 'Monitoring',
+  network_protocol: 'Network/Protocol',
+  interview_vocab: 'Phỏng vấn Pro',
 };
 
 export const vocabulary = [
@@ -386,6 +393,90 @@ export const vocabulary = [
   { id: 'v303', word: 'feature flag', ipa: '/ˈfiːtʃər flæɡ/', meaning: 'cờ tính năng', example: 'Use a feature flag to gate the release.', category: 'senior', day: 101 },
   { id: 'v304', word: 'blue-green deployment', ipa: '/bluː ɡriːn dɪˈplɔɪmənt/', meaning: 'triển khai blue-green', example: 'We use blue-green deployment.', category: 'senior', day: 70 },
   { id: 'v305', word: 'canary release', ipa: '/kəˈneri rɪˈliːs/', meaning: 'triển khai thử nghiệm', example: 'Do a canary release first.', category: 'senior', day: 70 },
+
+  // ============ DESIGN PATTERNS (v306-v319) ============
+  { id: 'v306', word: 'singleton', ipa: '/ˈsɪŋɡəltən/', meaning: 'pattern chỉ 1 instance', example: 'Database connection uses singleton pattern.', category: 'design_patterns', day: 63 },
+  { id: 'v307', word: 'factory pattern', ipa: '/ˈfæktəri ˈpætərn/', meaning: 'pattern tạo đối tượng', example: 'Use factory pattern to create services.', category: 'design_patterns', day: 63 },
+  { id: 'v308', word: 'observer pattern', ipa: '/əbˈzɜːrvər ˈpætərn/', meaning: 'pattern lắng nghe sự kiện', example: 'Event emitters use the observer pattern.', category: 'design_patterns', day: 63 },
+  { id: 'v309', word: 'strategy pattern', ipa: '/ˈstrætədʒi ˈpætərn/', meaning: 'pattern chọn thuật toán', example: 'Use strategy pattern for different auth methods.', category: 'design_patterns', day: 63 },
+  { id: 'v310', word: 'adapter pattern', ipa: '/əˈdæptər ˈpætərn/', meaning: 'pattern chuyển đổi interface', example: 'The adapter wraps the legacy API.', category: 'design_patterns', day: 63 },
+  { id: 'v311', word: 'decorator pattern', ipa: '/ˈdekəreɪtər ˈpætərn/', meaning: 'pattern thêm chức năng', example: 'NestJS uses decorator pattern extensively.', category: 'design_patterns', day: 64 },
+  { id: 'v312', word: 'proxy pattern', ipa: '/ˈprɒksi ˈpætərn/', meaning: 'pattern đại diện truy cập', example: 'Use proxy pattern for lazy loading.', category: 'design_patterns', day: 64 },
+  { id: 'v313', word: 'repository pattern', ipa: '/rɪˈpɒzɪtəri ˈpætərn/', meaning: 'pattern tách DB logic', example: 'Repository pattern abstracts data access.', category: 'design_patterns', day: 64 },
+  { id: 'v314', word: 'builder pattern', ipa: '/ˈbɪldər ˈpætərn/', meaning: 'pattern xây dựng từng bước', example: 'Use builder pattern for complex queries.', category: 'design_patterns', day: 64 },
+  { id: 'v315', word: 'dependency inversion', ipa: '/dɪˈpendənsi ɪnˈvɜːrʒən/', meaning: 'đảo ngược phụ thuộc', example: 'Depend on abstractions, not concretions.', category: 'design_patterns', day: 62 },
+  { id: 'v316', word: 'composition over inheritance', ipa: '/ˌkɒmpəˈzɪʃən ˈoʊvər ɪnˈherɪtəns/', meaning: 'ưu tiên kết hợp hơn kế thừa', example: 'Go uses composition over inheritance.', category: 'design_patterns', day: 62 },
+  { id: 'v317', word: 'strangler fig pattern', ipa: '/ˈstræŋɡlər fɪɡ ˈpætərn/', meaning: 'pattern thay thế dần legacy', example: 'Migrate the monolith using strangler fig.', category: 'design_patterns', day: 68 },
+  { id: 'v318', word: 'bulkhead pattern', ipa: '/ˈbʌlkhed ˈpætərn/', meaning: 'pattern cách ly lỗi', example: 'Bulkhead prevents one failure from spreading.', category: 'design_patterns', day: 68 },
+  { id: 'v319', word: 'retry pattern', ipa: '/riːˈtraɪ ˈpætərn/', meaning: 'pattern thử lại khi lỗi', example: 'Implement retry with exponential backoff.', category: 'design_patterns', day: 68 },
+
+  // ============ TESTING ADVANCED (v320-v332) ============
+  { id: 'v320', word: 'unit test', ipa: '/ˈjuːnɪt test/', meaning: 'kiểm thử đơn vị', example: 'Write unit tests for every service method.', category: 'testing_adv', day: 66 },
+  { id: 'v321', word: 'integration test', ipa: '/ˌɪntɪˈɡreɪʃən test/', meaning: 'kiểm thử tích hợp', example: 'Integration tests verify database interactions.', category: 'testing_adv', day: 66 },
+  { id: 'v322', word: 'end-to-end test', ipa: '/end tuː end test/', meaning: 'kiểm thử đầu cuối', example: 'E2E tests simulate real user flows.', category: 'testing_adv', day: 66 },
+  { id: 'v323', word: 'mocking', ipa: '/ˈmɒkɪŋ/', meaning: 'giả lập đối tượng', example: 'Mock the database for faster tests.', category: 'testing_adv', day: 66 },
+  { id: 'v324', word: 'test coverage', ipa: '/test ˈkʌvərɪdʒ/', meaning: 'tỷ lệ bao phủ test', example: 'We maintain 80% test coverage.', category: 'testing_adv', day: 66 },
+  { id: 'v325', word: 'TDD', ipa: '/tiː diː diː/', meaning: 'phát triển theo test', example: 'TDD means writing tests before code.', category: 'testing_adv', day: 66 },
+  { id: 'v326', word: 'fixture', ipa: '/ˈfɪkstʃər/', meaning: 'dữ liệu test cố định', example: 'Load fixtures before running tests.', category: 'testing_adv', day: 66 },
+  { id: 'v327', word: 'stub', ipa: '/stʌb/', meaning: 'giả lập trả về cố định', example: 'Stub the API response for testing.', category: 'testing_adv', day: 66 },
+  { id: 'v328', word: 'assertion', ipa: '/əˈsɜːrʃən/', meaning: 'khẳng định kết quả', example: 'Add assertions to verify behavior.', category: 'testing_adv', day: 66 },
+  { id: 'v329', word: 'load test', ipa: '/loʊd test/', meaning: 'kiểm thử tải', example: 'Run load tests before Black Friday.', category: 'testing_adv', day: 85 },
+  { id: 'v330', word: 'regression test', ipa: '/rɪˈɡreʃən test/', meaning: 'kiểm thử hồi quy', example: 'Regression tests catch reintroduced bugs.', category: 'testing_adv', day: 85 },
+  { id: 'v331', word: 'test pyramid', ipa: '/test ˈpɪrəmɪd/', meaning: 'kim tự tháp test', example: 'Follow the test pyramid: many unit, few E2E.', category: 'testing_adv', day: 85 },
+  { id: 'v332', word: 'benchmark', ipa: '/ˈbentʃmɑːrk/', meaning: 'đo hiệu năng', example: 'Benchmark the Go function with testing.B.', category: 'testing_adv', day: 85 },
+
+  // ============ CI/CD (v333-v344) ============
+  { id: 'v333', word: 'pipeline', ipa: '/ˈpaɪplaɪn/', meaning: 'luồng tự động hóa', example: 'The CI pipeline runs on every push.', category: 'cicd', day: 70 },
+  { id: 'v334', word: 'GitHub Actions', ipa: '/ˈɡɪthʌb ˈækʃənz/', meaning: 'CI/CD của GitHub', example: 'We use GitHub Actions for deployments.', category: 'cicd', day: 70 },
+  { id: 'v335', word: 'artifact', ipa: '/ˈɑːrtɪfækt/', meaning: 'sản phẩm build', example: 'Upload the build artifact to S3.', category: 'cicd', day: 70 },
+  { id: 'v336', word: 'rollback', ipa: '/ˈroʊlbæk/', meaning: 'quay lại phiên bản cũ', example: 'Rollback to the previous stable version.', category: 'cicd', day: 70 },
+  { id: 'v337', word: 'staging environment', ipa: '/ˈsteɪdʒɪŋ ɪnˈvaɪrənmənt/', meaning: 'môi trường thử nghiệm', example: 'Test on staging before deploying to production.', category: 'cicd', day: 70 },
+  { id: 'v338', word: 'continuous integration', ipa: '/kənˈtɪnjuəs ˌɪntɪˈɡreɪʃən/', meaning: 'tích hợp liên tục', example: 'CI catches bugs early in development.', category: 'cicd', day: 70 },
+  { id: 'v339', word: 'continuous deployment', ipa: '/kənˈtɪnjuəs dɪˈplɔɪmənt/', meaning: 'triển khai liên tục', example: 'CD automatically deploys to production.', category: 'cicd', day: 70 },
+  { id: 'v340', word: 'linting', ipa: '/ˈlɪntɪŋ/', meaning: 'kiểm tra code style', example: 'Run linting before committing code.', category: 'cicd', day: 70 },
+  { id: 'v341', word: 'build trigger', ipa: '/bɪld ˈtrɪɡər/', meaning: 'kích hoạt build', example: 'A merge to main triggers the build.', category: 'cicd', day: 70 },
+  { id: 'v342', word: 'hotfix', ipa: '/ˈhɒtfɪks/', meaning: 'sửa lỗi khẩn cấp', example: 'Deploy a hotfix for the critical bug.', category: 'cicd', day: 84 },
+  { id: 'v343', word: 'smoke test', ipa: '/smoʊk test/', meaning: 'test nhanh sau deploy', example: 'Run smoke tests after every deployment.', category: 'cicd', day: 84 },
+  { id: 'v344', word: 'environment variable', ipa: '/ɪnˈvaɪrənmənt ˈveriəbəl/', meaning: 'biến môi trường', example: 'Store secrets in environment variables.', category: 'cicd', day: 84 },
+
+  // ============ MONITORING / OBSERVABILITY (v345-v356) ============
+  { id: 'v345', word: 'Prometheus', ipa: '/prəˈmiːθiːəs/', meaning: 'hệ thống thu thập metrics', example: 'Prometheus scrapes metrics every 15 seconds.', category: 'monitoring', day: 72 },
+  { id: 'v346', word: 'Grafana', ipa: '/ɡrəˈfɑːnə/', meaning: 'dashboard trực quan', example: 'Build Grafana dashboards for API latency.', category: 'monitoring', day: 72 },
+  { id: 'v347', word: 'tracing', ipa: '/ˈtreɪsɪŋ/', meaning: 'theo dõi request qua services', example: 'Distributed tracing shows the full request path.', category: 'monitoring', day: 72 },
+  { id: 'v348', word: 'metrics', ipa: '/ˈmetrɪks/', meaning: 'chỉ số đo lường', example: 'Track p99 latency metrics for every endpoint.', category: 'monitoring', day: 72 },
+  { id: 'v349', word: 'alerting', ipa: '/əˈlɜːrtɪŋ/', meaning: 'cảnh báo tự động', example: 'Set up alerting for error rate spikes.', category: 'monitoring', day: 72 },
+  { id: 'v350', word: 'log aggregation', ipa: '/lɒɡ ˌæɡrɪˈɡeɪʃən/', meaning: 'tập hợp log tập trung', example: 'Use ELK stack for log aggregation.', category: 'monitoring', day: 72 },
+  { id: 'v351', word: 'ELK stack', ipa: '/elk stæk/', meaning: 'Elasticsearch + Logstash + Kibana', example: 'Search production logs in the ELK stack.', category: 'monitoring', day: 72 },
+  { id: 'v352', word: 'uptime', ipa: '/ˈʌptaɪm/', meaning: 'thời gian hoạt động', example: 'We guarantee 99.9% uptime SLA.', category: 'monitoring', day: 84 },
+  { id: 'v353', word: 'latency', ipa: '/ˈleɪtənsi/', meaning: 'độ trễ', example: 'The p99 latency is under 200ms.', category: 'monitoring', day: 84 },
+  { id: 'v354', word: 'throughput', ipa: '/ˈθruːpʊt/', meaning: 'thông lượng xử lý', example: 'Kafka handles high throughput workloads.', category: 'monitoring', day: 84 },
+  { id: 'v355', word: 'dashboard', ipa: '/ˈdæʃbɔːrd/', meaning: 'bảng điều khiển trực quan', example: 'Check the ops dashboard for system health.', category: 'monitoring', day: 84 },
+  { id: 'v356', word: 'span', ipa: '/spæn/', meaning: 'đơn vị tracing', example: 'Each span represents one service call.', category: 'monitoring', day: 72 },
+
+  // ============ NETWORK / PROTOCOL (v357-v367) ============
+  { id: 'v357', word: 'TCP', ipa: '/tiː siː piː/', meaning: 'giao thức truyền tin cậy', example: 'TCP ensures reliable data delivery.', category: 'network_protocol', day: 73 },
+  { id: 'v358', word: 'UDP', ipa: '/juː diː piː/', meaning: 'giao thức truyền nhanh', example: 'UDP is used for real-time streaming.', category: 'network_protocol', day: 73 },
+  { id: 'v359', word: 'HTTP/2', ipa: '/eɪtʃ tiː tiː piː tuː/', meaning: 'giao thức web thế hệ 2', example: 'HTTP/2 supports multiplexing requests.', category: 'network_protocol', day: 73 },
+  { id: 'v360', word: 'WebSocket', ipa: '/ˈwebsɒkɪt/', meaning: 'kết nối hai chiều thời gian thực', example: 'Use WebSocket for live chat features.', category: 'network_protocol', day: 73 },
+  { id: 'v361', word: 'DNS resolution', ipa: '/diː en es ˌrezəˈluːʃən/', meaning: 'phân giải tên miền', example: 'DNS resolution converts domain to IP address.', category: 'network_protocol', day: 73 },
+  { id: 'v362', word: 'TLS handshake', ipa: '/tiː el es ˈhændʃeɪk/', meaning: 'bắt tay bảo mật', example: 'TLS handshake establishes encrypted connection.', category: 'network_protocol', day: 73 },
+  { id: 'v363', word: 'CDN', ipa: '/siː diː en/', meaning: 'mạng phân phối nội dung', example: 'Serve static assets through a CDN.', category: 'network_protocol', day: 71 },
+  { id: 'v364', word: 'CORS', ipa: '/kɔːrz/', meaning: 'chia sẻ tài nguyên cross-origin', example: 'Configure CORS for the API gateway.', category: 'network_protocol', day: 73 },
+  { id: 'v365', word: 'latency vs bandwidth', ipa: '/ˈleɪtənsi vɜːrsəs ˈbændwɪdθ/', meaning: 'độ trễ vs băng thông', example: 'Optimize for latency, not just bandwidth.', category: 'network_protocol', day: 73 },
+  { id: 'v366', word: 'connection pooling', ipa: '/kəˈnekʃən ˈpuːlɪŋ/', meaning: 'tái sử dụng kết nối', example: 'Connection pooling reduces database overhead.', category: 'network_protocol', day: 69 },
+  { id: 'v367', word: 'keep-alive', ipa: '/kiːp əˈlaɪv/', meaning: 'duy trì kết nối', example: 'Enable keep-alive to reuse HTTP connections.', category: 'network_protocol', day: 73 },
+
+  // ============ INTERVIEW VOCABULARY (v368-v377) ============
+  { id: 'v368', word: 'trade-off', ipa: '/ˈtreɪdɒf/', meaning: 'sự đánh đổi', example: 'Every architecture has trade-offs.', category: 'interview_vocab', day: 78 },
+  { id: 'v369', word: 'bottleneck', ipa: '/ˈbɒtlnek/', meaning: 'điểm nghẽn', example: 'The database is the bottleneck here.', category: 'interview_vocab', day: 78 },
+  { id: 'v370', word: 'edge case', ipa: '/edʒ keɪs/', meaning: 'trường hợp biên', example: 'Consider edge cases like empty input.', category: 'interview_vocab', day: 78 },
+  { id: 'v371', word: 'scalable', ipa: '/ˈskeɪləbəl/', meaning: 'có khả năng mở rộng', example: 'This design is horizontally scalable.', category: 'interview_vocab', day: 78 },
+  { id: 'v372', word: 'maintainable', ipa: '/meɪnˈteɪnəbəl/', meaning: 'dễ bảo trì', example: 'Write maintainable code with clear naming.', category: 'interview_vocab', day: 78 },
+  { id: 'v373', word: 'fault tolerant', ipa: '/fɔːlt ˈtɒlərənt/', meaning: 'chịu lỗi', example: 'The system must be fault tolerant.', category: 'interview_vocab', day: 78 },
+  { id: 'v374', word: 'single point of failure', ipa: '/ˈsɪŋɡəl pɔɪnt əv ˈfeɪljər/', meaning: 'điểm lỗi duy nhất', example: 'Avoid single point of failure in production.', category: 'interview_vocab', day: 78 },
+  { id: 'v375', word: 'eventually consistent', ipa: '/ɪˈventʃuəli kənˈsɪstənt/', meaning: 'nhất quán cuối cùng', example: 'NoSQL databases are eventually consistent.', category: 'interview_vocab', day: 69 },
+  { id: 'v376', word: 'idempotent', ipa: '/ˌaɪdəmˈpoʊtənt/', meaning: 'thực hiện nhiều lần cùng kết quả', example: 'PUT requests should be idempotent.', category: 'interview_vocab', day: 78 },
+  { id: 'v377', word: 'backward compatible', ipa: '/ˈbækwərd kəmˈpætɪbəl/', meaning: 'tương thích ngược', example: 'Ensure the API change is backward compatible.', category: 'interview_vocab', day: 80 },
 ];
 
 export function getVocabByDay(day) {
