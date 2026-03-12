@@ -1,0 +1,19 @@
+{
+  "name": "english-daily",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "concurrently \"vite\" \"node server.js\"",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "express": "^4.21.0",
+    "cors": "^2.8.5",
+    "concurrently": "^9.0.0"
+  },
+  "devDependencies": {
+    "vite": "^6.0.0"
+  }
+}
