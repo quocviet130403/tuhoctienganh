@@ -1,105 +1,141 @@
 import express from 'express';
 import cors from 'cors';
-import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import mongoose from 'mongoose';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
 const PORT = 3001;
-const DB_PATH = path.join(__dirname, 'data', 'user-progress.json');
+const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/english-daily';
 
 app.use(cors());
 app.use(express.json());
 
-// Đảm bảo thư mục data tồn tại
-const dataDir = path.join(__dirname, 'data');
-if (!fs.existsSync(dataDir)) {
-  fs.mkdirSync(dataDir, { recursive: true });
-}
-
-// Khởi tạo file DB nếu chưa có
-const defaultProgress = {
-  streak: { current: 0, best: 0, lastActiveDate: null },
-  flashcards: {},
-  lessons: {},
-  dailyLog: [],
-  settings: { dailyGoal: 15 }
-};
-
-function readDB() {
-  try {
-    if (!fs.existsSync(DB_PATH)) {
-      fs.writeFileSync(DB_PATH, JSON.stringify(defaultProgress, null, 2));
-      return { ...defaultProgress };
-    }
-    const raw = fs.readFileSync(DB_PATH, 'utf-8');
-    return JSON.parse(raw);
-  } catch {
-    return { ...defaultProgress };
+// --- Mongoose Schema ---
+const progressSchema = new mongoose.Schema({
+  streak: {
+    current: { type: Number, default: 0 },
+    best: { type: Number, default: 0 },
+    lastActiveDate: { type: String, default: null }
+  },
+  flashcards: { type: Map, of: mongoose.Schema.Types.Mixed, default: {} },
+  lessons: { type: Map, of: mongoose.Schema.Types.Mixed, default: {} },
+  dailyLog: { type: [String], default: [] },
+  settings: {
+    dailyGoal: { type: Number, default: 15 }
   }
-}
+}, { timestamps: true });
 
-function writeDB(data) {
-  fs.writeFileSync(DB_PATH, JSON.stringify(data, null, 2));
+const Progress = mongoose.model('Progress', progressSchema);
+
+// Helper: get or create the single progress document
+async function getProgress() {
+  let doc = await Progress.findOne();
+  if (!doc) {
+    doc = await Progress.create({});
+  }
+  return doc;
 }
 
 // GET — đọc tiến độ
-app.get('/api/progress', (req, res) => {
-  const data = readDB();
-  res.json(data);
+app.get('/api/progress', async (req, res) => {
+  try {
+    const data = await getProgress();
+    res.json(data);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
 // POST — cập nhật tiến độ
-app.post('/api/progress', (req, res) => {
-  const current = readDB();
-  const updated = { ...current, ...req.body };
+app.post('/api/progress', async (req, res) => {
+  try {
+    const doc = await getProgress();
 
-  // Merge nested objects
-  if (req.body.streak) updated.streak = { ...current.streak, ...req.body.streak };
-  if (req.body.flashcards) updated.flashcards = { ...current.flashcards, ...req.body.flashcards };
-  if (req.body.lessons) updated.lessons = { ...current.lessons, ...req.body.lessons };
+    if (req.body.streak) Object.assign(doc.streak, req.body.streak);
+    if (req.body.flashcards) {
+      for (const [k, v] of Object.entries(req.body.flashcards)) {
+        doc.flashcards.set(k, v);
+      }
+    }
+    if (req.body.lessons) {
+      for (const [k, v] of Object.entries(req.body.lessons)) {
+        doc.lessons.set(k, v);
+      }
+    }
+    if (req.body.settings) Object.assign(doc.settings, req.body.settings);
 
-  writeDB(updated);
-  res.json({ ok: true, data: updated });
+    await doc.save();
+    res.json({ ok: true, data: doc });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
 // POST — ghi nhận học hôm nay (streak logic)
-app.post('/api/streak/checkin', (req, res) => {
-  const data = readDB();
-  const today = new Date().toISOString().split('T')[0];
-  const yesterday = new Date(Date.now() - 86400000).toISOString().split('T')[0];
+app.post('/api/streak/checkin', async (req, res) => {
+  try {
+    const doc = await getProgress();
+    const today = new Date().toISOString().split('T')[0];
+    const yesterday = new Date(Date.now() - 86400000).toISOString().split('T')[0];
 
-  if (data.streak.lastActiveDate === today) {
-    return res.json({ ok: true, message: 'Đã check-in hôm nay rồi', data: data.streak });
+    if (doc.streak.lastActiveDate === today) {
+      return res.json({ ok: true, message: 'Đã check-in hôm nay rồi', data: doc.streak });
+    }
+
+    if (doc.streak.lastActiveDate === yesterday) {
+      doc.streak.current += 1;
+    } else {
+      doc.streak.current = 1;
+    }
+
+    if (doc.streak.current > doc.streak.best) {
+      doc.streak.best = doc.streak.current;
+    }
+
+    doc.streak.lastActiveDate = today;
+
+    if (!doc.dailyLog.includes(today)) {
+      doc.dailyLog.push(today);
+    }
+
+    await doc.save();
+    res.json({ ok: true, data: doc.streak });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
-
-  if (data.streak.lastActiveDate === yesterday) {
-    data.streak.current += 1;
-  } else {
-    data.streak.current = 1;
-  }
-
-  if (data.streak.current > data.streak.best) {
-    data.streak.best = data.streak.current;
-  }
-
-  data.streak.lastActiveDate = today;
-
-  if (!data.dailyLog.includes(today)) {
-    data.dailyLog.push(today);
-  }
-
-  writeDB(data);
-  res.json({ ok: true, data: data.streak });
 });
 
 // GET — reset
-app.get('/api/progress/reset', (req, res) => {
-  writeDB({ ...defaultProgress });
-  res.json({ ok: true, message: 'Đã reset tiến độ' });
+app.get('/api/progress/reset', async (req, res) => {
+  try {
+    await Progress.deleteMany();
+    const fresh = await Progress.create({});
+    res.json({ ok: true, message: 'Đã reset tiến độ', data: fresh });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
-app.listen(PORT, () => {
-  console.log(`📚 English Daily API running on http://localhost:${PORT}`);
-});
+// Production: serve built frontend from dist/
+if (process.env.NODE_ENV === 'production') {
+  const distPath = path.join(__dirname, 'dist');
+  app.use(express.static(distPath));
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(distPath, 'index.html'));
+  });
+}
+
+// Connect to MongoDB then start server
+mongoose.connect(MONGO_URI)
+  .then(() => {
+    console.log('✅ Connected to MongoDB');
+    app.listen(PORT, '0.0.0.0', () => {
+      console.log(`📚 English Daily API running on http://0.0.0.0:${PORT}`);
+    });
+  })
+  .catch(err => {
+    console.error('❌ MongoDB connection failed:', err.message);
+    process.exit(1);
+  });
